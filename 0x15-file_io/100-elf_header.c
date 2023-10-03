@@ -166,6 +166,7 @@ void print_elf_header(const Elf64_Ehdr *header)
 	if (header->e_ident[EI_DATA] == ELFDATA2MSB)
 	{
 		unsigned int e_type = header->e_type;
+
 		e_type >>= 8;
 		switch (e_type)
 		{
