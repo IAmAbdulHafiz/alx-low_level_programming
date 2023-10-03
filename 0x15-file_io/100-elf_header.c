@@ -189,39 +189,44 @@ void print_elf_header(const Elf64_Ehdr *header)
 				break;
 		}
 	}
-	else {
-        switch (header->e_type) {
-            case ET_NONE:
-                printf("NONE (None)\n");
-                break;
-            case ET_REL:
-                printf("REL (Relocatable file)\n");
-                break;
-            case ET_EXEC:
-                printf("EXEC (Executable file)\n");
-                break;
-            case ET_DYN:
-                printf("DYN (Shared object file)\n");
-                break;
-            case ET_CORE:
-                printf("CORE (Core file)\n");
-                break;
-            default:
-                printf("Unknown\n");
-                break;
-        }
-    }
-    printf("  Entry point address:               ");
-    if (header->e_ident[EI_DATA] == ELFDATA2MSB) {
-        unsigned long int e_entry = header->e_entry;
-        e_entry = ((e_entry << 8) & 0xFF00FF00) | ((e_entry >> 8) & 0xFF00FF);
-        e_entry = (e_entry << 16) | (e_entry >> 16);
-        printf("%#lx\n", e_entry);
-    } else {
-        if (header->e_ident[EI_CLASS] == ELFCLASS32)
-            printf("%#x\n", (unsigned int)header->e_entry);
-        else
-            printf("%#lx\n", header->e_entry);
-    }
-}
+	else
+	{
+		switch (header->e_type)
+		{
+			case ET_NONE:
+				printf("NONE (None)\n");
+				break;
+			case ET_REL:
+				printf("REL (Relocatable file)\n");
+				break;
+			case ET_EXEC:
+				printf("EXEC (Executable file)\n");
+				break;
+			case ET_DYN:
+				printf("DYN (Shared object file)\n");
+				break;
+			case ET_CORE:
+				printf("CORE (Core file)\n");
+				break;
+			default:
+				printf("Unknown\n");
+				break;
+		}
+	}
+	printf("  Entry point address:               ");
+	if (header->e_ident[EI_DATA] == ELFDATA2MSB)
+	{
+		unsigned long int e_entry = header->e_entry;
 
+		e_entry = ((e_entry << 8) & 0xFF00FF00) | ((e_entry >> 8) & 0xFF00FF);
+		e_entry = (e_entry << 16) | (e_entry >> 16);
+		printf("%#lx\n", e_entry);
+	}
+	else
+	{
+		if (header->e_ident[EI_CLASS] == ELFCLASS32)
+			printf("%#x\n", (unsigned int)header->e_entry);
+		else
+			printf("%#lx\n", header->e_entry);
+	}
+}
