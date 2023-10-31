@@ -13,6 +13,13 @@
  */
 void print_elf_header(const Elf64_Ehdr *header);
 
+/**
+ * main - Entry point of the program.
+ * @argc: Number of command-line arguments.
+ * @argv: Array of command-line arguments.
+ * Return: 0 on success, 1 for invalid usage, 98 for file errors.
+ */
+
 int main(int argc, char *argv[])
 {
 	const char *elf_filename;
@@ -42,7 +49,7 @@ int main(int argc, char *argv[])
 		return (98);
 	}
 
-	if (memcmp(elf_header.e_ident, ELFMAG, SELFMAG) != 0) 
+	if (memcmp(elf_header.e_ident, ELFMAG, SELFMAG) != 0)
 	{
 		fprintf(stderr, "Error: Not a valid ELF file\n");
 		close(fd);
@@ -55,6 +62,11 @@ int main(int argc, char *argv[])
 	return (0);
 }
 
+/**
+ * print_elf_header - Displays the ELF header information.
+ * @header: A pointer to the ELF header structure.
+ */
+
 void print_elf_header(const Elf64_Ehdr *header)
 {
 	int i;
@@ -63,29 +75,35 @@ void print_elf_header(const Elf64_Ehdr *header)
 	const char *os_abi;
 	const char *type_str;
 
-    printf("ELF Header:\n");
-    printf("  Magic:   ");
-    for (i = 0; i < EI_NIDENT; i++) {
-        printf("%02x", header->e_ident[i]);
-        if (i < EI_NIDENT - 1) {
-            printf(" ");
-        }
-    }
-    printf("\n");
+	printf("ELF Header:\n");
+	printf("  Magic:   ");
+	for (i = 0; i < EI_NIDENT; i++)
+	{
+		printf("%02x", header->e_ident[i]);
+		if (i < EI_NIDENT - 1)
+		{
+			printf(" ");
+		}
+	}
+	printf("\n");
 
-    class_str = (header->e_ident[EI_CLASS] == ELFCLASS64) ? "ELF64" : "ELF32";
-    data_str = (header->e_ident[EI_DATA] == ELFDATA2LSB) ? "2's complement, little endian" : "2's complement, big endian";
+	class_str = (header->e_ident[EI_CLASS] == ELFCLASS64) ? "ELF64" : "ELF32";
+	data_str = (header->e_ident[EI_DATA] == ELFDATA2LSB) ? "2's complement,
+	little endian" : "2's complement, big endian";
 
-    printf("  Class:                             %s\n", class_str);
-    printf("  Data:                              %s\n", data_str);
-    printf("  Version:                           %d (current)\n", header->e_ident[EI_VERSION]);
+	printf("  Class:                             %s\n", class_str);
+	printf("  Data:                              %s\n", data_str);
+	printf("  Version:                           %d (current)\n",
+	header->e_ident[EI_VERSION]);
 
-    os_abi = (header->e_ident[EI_OSABI] == ELFOSABI_SYSV) ? "UNIX - System V" : "Other";
-    printf("  OS/ABI:                            %s\n", os_abi);
-    printf("  ABI Version:                       %d\n", header->e_ident[EI_ABIVERSION]);
+	os_abi = (header->e_ident[EI_OSABI] == ELFOSABI_SYSV) ?
+	"UNIX - System V" : "Other";
+	printf("  OS/ABI:                            %s\n", os_abi);
+	printf("  ABI Version:                       %d\n",
+	header->e_ident[EI_ABIVERSION]);
 
-    type_str = (header->e_type == ET_EXEC) ? "EXEC (Executable file)" : "Other";
-    printf("  Type:                              %s\n", type_str);
+	type_str = (header->e_type == ET_EXEC) ? "EXEC (Executable file)" : "Other";
+	printf("  Type:                              %s\n", type_str);
 
-    printf("  Entry point address:               0x%lx\n", header->e_entry);
+	printf("  Entry point address:               0x%lx\n", header->e_entry);
 }
