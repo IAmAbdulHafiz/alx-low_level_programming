@@ -13,48 +13,55 @@
  */
 void print_elf_header(const Elf64_Ehdr *header);
 
-int main(int argc, char *argv[]) {
-    const char *elf_filename;
-    int fd;
-    Elf64_Ehdr elf_header;
+int main(int argc, char *argv[])
+{
+	const char *elf_filename;
+	int fd;
+	Elf64_Ehdr elf_header;
 
-    if (argc != 2) {
-        fprintf(stderr, "Usage: %s elf_filename\n", argv[0]);
-        return 1;
-    }
+	if (argc != 2)
+	{
+		fprintf(stderr, "Usage: %s elf_filename\n", argv[0]);
+		return (1);
+	}
 
-    elf_filename = argv[1];
-    fd = open(elf_filename, O_RDONLY);
+	elf_filename = argv[1];
+	fd = open(elf_filename, O_RDONLY);
 
-    if (fd == -1) {
-        fprintf(stderr, "Error: Failed to open the file: %s\n", strerror(errno));
-        return 98;
-    }
+	if (fd == -1)
+	{
+		fprintf(stderr, "Error: Failed to open the file: %s\n", strerror(errno));
+		return (98);
+	}
 
-    if (read(fd, &elf_header, sizeof(Elf64_Ehdr)) != sizeof(Elf64_Ehdr)) {
-        fprintf(stderr, "Error: Failed to read ELF header from file: %s\n", strerror(errno));
-        close(fd);
-        return 98;
-    }
+	if (read(fd, &elf_header, sizeof(Elf64_Ehdr)) != sizeof(Elf64_Ehdr))
+	{
+		fprintf(stderr, "Error: Failed to read ELF header from file: %s\n",
+		strerror(errno));
+		close(fd);
+		return (98);
+	}
 
-    if (memcmp(elf_header.e_ident, ELFMAG, SELFMAG) != 0) {
-        fprintf(stderr, "Error: Not a valid ELF file\n");
-        close(fd);
-        return 98;
-    }
+	if (memcmp(elf_header.e_ident, ELFMAG, SELFMAG) != 0) 
+	{
+		fprintf(stderr, "Error: Not a valid ELF file\n");
+		close(fd);
+		return (98);
+	}
 
-    print_elf_header(&elf_header);
+	print_elf_header(&elf_header);
 
-    close(fd);
-    return 0;
+	close(fd);
+	return (0);
 }
 
-void print_elf_header(const Elf64_Ehdr *header) {
-    int i;
-    const char *class_str;
-    const char *data_str;
-    const char *os_abi;
-    const char *type_str;
+void print_elf_header(const Elf64_Ehdr *header)
+{
+	int i;
+	const char *class_str;
+	const char *data_str;
+	const char *os_abi;
+	const char *type_str;
 
     printf("ELF Header:\n");
     printf("  Magic:   ");
