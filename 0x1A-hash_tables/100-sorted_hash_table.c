@@ -19,20 +19,20 @@ shash_table_t *shash_table_create(unsigned long int size)
 	shash_table_t *ht;
 	unsigned long int i;
 
-	hash_t = malloc(sizeof(hash_table_t));
-	if (hash_t == NULL)
+	ht = malloc(sizeof(shash_table_t));
+	if (ht == NULL)
 		return (NULL);
 
-	hash_t->size = size;
-	hash_t->array = malloc(sizeof(hash_node_t *) * size);
-	if (hash_t->array == NULL)
+	ht->size = size;
+	ht->array = malloc(sizeof(shash_node_t *) * size);
+	if (ht->array == NULL)
 		return (NULL);
 	for (i = 0; i < size; i++)
-		hash_t->array[i] = NULL;
+		ht->array[i] = NULL;
 	ht->shead = NULL;
 	ht->stail = NULL;
 
-	return (hash_t);
+	return (ht);
 }
 
 /**
