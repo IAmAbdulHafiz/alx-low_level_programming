@@ -10,7 +10,7 @@
  *
  * Description: Utilizes the djb2 hashing algorithm to determine the index.
  */
-
+unsigned long int key_index(const unsigned char *key, unsigned long int size)
 {
 	return (hash_djb2(key) % size);
 }
